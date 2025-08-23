@@ -1,13 +1,15 @@
 import { fetchFilteredCustomers } from "@/app/lib/data";
 import Image from "next/image";
 
-// Ambil search query dari URL
+// Tipe searchParams yang benar
+type SearchParams = {
+  search?: string;
+};
+
 export default async function CustomersPage({
   searchParams,
 }: {
-  searchParams?: {
-    search?: string;
-  };
+  searchParams?: SearchParams;
 }) {
   const search = searchParams?.search || "";
   const customers = await fetchFilteredCustomers(search);
