@@ -1,15 +1,15 @@
 import { fetchFilteredCustomers } from "@/app/lib/data";
 import Image from "next/image";
 
-// Anda tidak perlu mendefinisikan tipe CustomersPageProps secara eksplisit jika menggunakan pendekatan ini
-// Next.js akan secara otomatis mengelola tipenya.
-
 export default async function CustomersPage({
   searchParams,
 }: {
-  searchParams?: { search?: string };
+  searchParams?: { search?: string | string[] };
 }) {
-  const search = searchParams?.search || "";
+  const search = Array.isArray(searchParams?.search)
+    ? searchParams.search[0]
+    : searchParams?.search || "";
+
   const customers = await fetchFilteredCustomers(search);
 
   return (
@@ -17,7 +17,6 @@ export default async function CustomersPage({
       <h1 className="text-2xl font-semibold">Pelanggan</h1>
       <h1 className="text-2xl font-semibold">Customers</h1>
 
-      {/* Form pencarian */}
       <form className="mt-4">
         <input
           type="text"
@@ -28,7 +27,6 @@ export default async function CustomersPage({
         />
       </form>
 
-      {/* Tabel */}
       <div className="mt-6 overflow-x-auto">
         <table className="min-w-full border-collapse rounded-lg overflow-hidden shadow">
           <thead className="bg-gray-50">
