@@ -1,16 +1,14 @@
-// aplikasi/dasbor/pelanggan/halaman.tsx
-
 import { fetchFilteredCustomers } from "@/app/lib/data";
 import Image from "next/image";
 
-// Tipe yang benar untuk searchParams di Next.js
-interface CustomersPageProps {
-  searchParams?: {
-    search?: string;
-  };
-}
+// Anda tidak perlu mendefinisikan tipe CustomersPageProps secara eksplisit jika menggunakan pendekatan ini
+// Next.js akan secara otomatis mengelola tipenya.
 
-export default async function CustomersPage({ searchParams }: CustomersPageProps) {
+export default async function CustomersPage({
+  searchParams,
+}: {
+  searchParams?: { search?: string };
+}) {
   const search = searchParams?.search || "";
   const customers = await fetchFilteredCustomers(search);
 
@@ -37,9 +35,9 @@ export default async function CustomersPage({ searchParams }: CustomersPageProps
             <tr>
               <th className="px-4 py-2 text-left">Name</th>
               <th className="px-4 py-2 text-left">Email</th>
-              <th className="px-4 py-2">Total Invoices</th>
-              <th className="px-4 py-2">Total Pending</th>
-              <th className="px-4 py-2">Total Paid</th>
+              <th className="px-4 py-2 text-center">Total Invoices</th>
+              <th className="px-4 py-2 text-center">Total Pending</th>
+              <th className="px-4 py-2 text-center">Total Paid</th>
             </tr>
           </thead>
           <tbody className="divide-y bg-white">
@@ -60,10 +58,10 @@ export default async function CustomersPage({ searchParams }: CustomersPageProps
                   <td className="px-4 py-2 text-center">
                     {cust.total_invoices}
                   </td>
-                  <td className="px-4 py-2 text-red-500">
+                  <td className="px-4 py-2 text-red-500 text-center">
                     {cust.total_pending}
                   </td>
-                  <td className="px-4 py-2 text-green-600">
+                  <td className="px-4 py-2 text-green-600 text-center">
                     {cust.total_paid}
                   </td>
                 </tr>
