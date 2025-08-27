@@ -1,7 +1,11 @@
 import { fetchFilteredCustomers } from "@/app/lib/data";
 import Image from "next/image";
 
-export default async function CustomersPage({ searchParams }: { searchParams?: { search?: string } }) {
+export default async function CustomersPage({
+  searchParams,
+}: {
+  searchParams?: { search?: string };
+}) {
   const search = searchParams?.search || "";
   const customers = await fetchFilteredCustomers(search);
 
@@ -49,13 +53,13 @@ export default async function CustomersPage({ searchParams }: { searchParams?: {
                   </td>
                   <td className="px-4 py-2">{cust.email}</td>
                   <td className="px-4 py-2 text-center">
-                    {cust.total_invoices}
+                      {cust.total_invoices}
                   </td>
                   <td className="px-4 py-2 text-red-500 text-center">
-                    {cust.total_pending}
+                      {cust.total_pending}
                   </td>
                   <td className="px-4 py-2 text-green-600 text-center">
-                    {cust.total_paid}
+                      {cust.total_paid}
                   </td>
                 </tr>
               ))
