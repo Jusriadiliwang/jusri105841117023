@@ -1,7 +1,18 @@
 import AcmeLogo from '@/app/ui/acme-logo';
 import LoginForm from '@/app/ui/login-form';
 import { Suspense } from 'react';
- 
+
+// Anda bisa membuat fallback yang lebih bagus, tapi tulisan sederhana sudah cukup
+function LoginFormFallback() {
+  return (
+    <>
+      <div className="h-8 w-full animate-pulse rounded-md bg-gray-200" />
+      <div className="h-8 w-full animate-pulse rounded-md bg-gray-200" />
+      <div className="mt-4 h-10 w-full animate-pulse rounded-md bg-gray-200" />
+    </>
+  );
+}
+
 export default function LoginPage() {
   return (
     <main className="flex items-center justify-center md:h-screen">
@@ -11,9 +22,12 @@ export default function LoginPage() {
             <AcmeLogo />
           </div>
         </div>
-        <Suspense>
+        
+        {/* Tambahkan prop fallback di sini */}
+        <Suspense fallback={<LoginFormFallback />}>
           <LoginForm />
         </Suspense>
+
       </div>
     </main>
   );
