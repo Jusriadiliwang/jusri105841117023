@@ -1,29 +1,25 @@
 import { fetchFilteredCustomers } from "@/app/lib/data";
 import Image from "next/image";
+import { lusitana } from "@/app/ui/fonts";
+import Search from "@/app/ui/search"; 
 
 export default async function CustomersPage({
   searchParams,
 }: {
-  searchParams?: { search?: string };
+  searchParams: Promise<{ query?: string }>;
 }) {
-  const search = searchParams?.search || "";
+  const params = await searchParams;
+  const search = params.query || "";
   const customers = await fetchFilteredCustomers(search);
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-semibold">Pelanggan</h1>
-      <h1 className="text-2xl font-semibold">Customers</h1>
+      <h1 className={`${lusitana.className} text-2xl`}>Customers</h1>
 
-      {/* Form pencarian */}
-      <form className="mt-4">
-        <input
-          type="text"
-          name="search"
-          defaultValue={search}
-          placeholder="🔍 Search customers..."
-          className="w-full rounded-md border px-4 py-2 focus:outline-none focus:ring focus:ring-blue-300"
-        />
-      </form>
+      {/* Search bar */}
+      <div className="mt-4 flex items-center justify-between gap-2">
+        <Search placeholder="Search customers..." />
+      </div>
 
       {/* Tabel */}
       <div className="mt-6 overflow-x-auto">
@@ -32,13 +28,13 @@ export default async function CustomersPage({
             <tr>
               <th className="px-4 py-2 text-left">Name</th>
               <th className="px-4 py-2 text-left">Email</th>
-              <th className="px-4 py-2 text-center">Total Invoices</th>
-              <th className="px-4 py-2 text-center">Total Pending</th>
-              <th className="px-4 py-2 text-center">Total Paid</th>
+              <th className="px-4 py-2">Total Invoices</th>
+              <th className="px-4 py-2">Total Pending</th>
+              <th className="px-4 py-2">Total Paid</th>
             </tr>
           </thead>
           <tbody className="divide-y bg-white">
-            {customers.length ? (
+            {customers.length > 0 ? (
               customers.map((cust) => (
                 <tr key={cust.id}>
                   <td className="flex items-center gap-2 px-4 py-2">
@@ -53,13 +49,13 @@ export default async function CustomersPage({
                   </td>
                   <td className="px-4 py-2">{cust.email}</td>
                   <td className="px-4 py-2 text-center">
-                      {cust.total_invoices}
+                    {cust.total_invoices}
                   </td>
-                  <td className="px-4 py-2 text-red-500 text-center">
-                      {cust.total_pending}
+                  <td className="px-4 py-2 text-red-500">
+                    {cust.total_pending}
                   </td>
-                  <td className="px-4 py-2 text-green-600 text-center">
-                      {cust.total_paid}
+                  <td className="px-4 py-2 text-green-600">
+                    {cust.total_paid}
                   </td>
                 </tr>
               ))
